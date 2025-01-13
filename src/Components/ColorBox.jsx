@@ -5,7 +5,7 @@ function ColorBox({ color, handleColorBoxClick, isEnabled, correctColor }) {
     <div onClick={() => handleColorBoxClick(color)} className="cursor-pointer">
       <button
         disabled={isEnabled}
-        className="bg-slate-300 text-2xl font-bold p-7"
+        className="bg-slate-300 text-xl font-bold p-2"
         style={{
           backgroundColor:
             isEnabled && color === correctColor

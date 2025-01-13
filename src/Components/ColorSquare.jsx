@@ -4,13 +4,13 @@ function ColorSquare({ color }) {
   return (
     <div>
       <div
-        className="text-white p-10 w-[500px] h-[500px] mt-[80px] text-4xl"
+        className="text-white p-10 w-[40vh] h-[40vh] mt-[5vh] text-4xl"
         style={{ backgroundColor: color }}
       >
-        {color}
       </div>
     </div>
   );
+
 }
 
 export default ColorSquare;
