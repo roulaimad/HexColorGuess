@@ -1,16 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import { useState } from "react";
 import ColorBox from "./Components/ColorBox";
 import ColorSquare from "./Components/ColorSquare";
 import Navbar from "./Components/Navbar";
 import Resaults from "./Components/Resaults";
+import Score from "./Components/Score";
+import ScoreReducer from "./reducers/ScoreReducer";
 
 function App() {
   const [colorList, setColorList] = useState([]);
   const [correctColor, setCorrectColor] = useState("");
   const [resaults, setResaults] = useState();
   const [resaultsVisibility, setResaultsVisibility] = useState(false);
-
+  const initialValue = {
+    won: 0,
+    lost: 0,
+    ratio: 0,
+  };
+  const [score, dispatch] = useReducer(ScoreReducer, initialValue);
   function generateHexColor() {
     const hex = Math.floor(Math.random() * 16777215).toString(16);
     const hexColor = `#${hex.padStart(6, "0")}`;
@@ -29,17 +36,16 @@ function App() {
   function pickRandomCorrectColor() {
     const index = Math.floor(Math.random() * 3);
     setCorrectColor(colorList[index]);
-    console.log("index:", index);
     return colorList[index];
   }
 
   const handleColorBoxClick = (color) => {
     if (color === correctColor) {
-      console.log("Correct!!!");
       setResaults(true);
+      dispatch({ type: "won" });
     } else {
-      console.log("Wrooong!");
       setResaults(false);
+      dispatch({ type: "lost" });
     }
     setResaultsVisibility(true);
     setTimeout(() => {
@@ -59,15 +65,10 @@ function App() {
     pickRandomCorrectColor();
   }, [colorList]);
 
-  useEffect(() => {
-    console.log("Color List:", colorList);
-    console.log("Correct Color:", correctColor);
-  }, [correctColor]);
-
   return (
     <div className="flex flex-col items-center">
       <Navbar />
-
+      <Score score={score} />
       <ColorSquare color={correctColor} />
 
       <div className="flex flex-row items-center gap-4 mt-8">
